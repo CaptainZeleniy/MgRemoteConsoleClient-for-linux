@@ -26,7 +26,7 @@ if args.list:
         else:
             print 'This is group ' + name
 if args.connect:
-      #print ("~Connect" + format(args.connect))
+      print ("~Connect" + format(args.connect))
       for node in tree.getiterator('Node'):
         name = node.get('Name')
         hostname = node.get('Hostname')
@@ -52,4 +52,7 @@ if args.connect:
             #    break
 else:
     print ("~ No Arg")
+<<<<<<< HEAD
         
+=======
+>>>>>>> 845ad8420608705826244be1b86b3ec15bb9fc9a
