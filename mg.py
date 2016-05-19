@@ -1,4 +1,4 @@
-import elementtree.ElementTree as ET
+import elementtree.ElementTree as ET  ###INSTALL is required###
 import argparse
 import sys
 import os
@@ -9,12 +9,25 @@ parser.add_argument('--connect', '-c', nargs=1, help='Connect by number', type=i
 args = parser.parse_args()
 tree = ET.parse('/tmp/confCons.xml')
 root = tree.getroot()
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 global name, hostname, protocol, username, port, i
 
 def tree_parser_list():
     """Parse confCons.xml from variable tree
        =)"""
     i = 0
+    print color.BOLD+"    # :: Name :: Hostname :: Protocol :: Username :: Port "+color.END
     for node in tree.getiterator('Node'):
         name = node.get('Name')
         hostname = node.get('Hostname')
@@ -23,10 +36,10 @@ def tree_parser_list():
         port = node.get('Port')
         if name and hostname:
             i += 1
-            conninfo = '    %i :: %s :: %s :: %s :: %s :: %s' % (i, name, hostname, protocol, username, port)
+            conninfo = '    %s :: %s :: %s :: %s :: %s :: %s' % (color.GREEN+color.BOLD+str(i)+color.END+color.END, name, color.BOLD+hostname+color.END, protocol, username, port)
             print conninfo.encode('utf-8')
         else:
-            print 'This is group ' + name
+            print color.RED + color.BOLD + 'This is group ' + name + color.END + color.END
 
 def tree_connect():
       i = 0
