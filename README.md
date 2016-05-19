@@ -1,6 +1,6 @@
 # MgRemoteConsoleClient-for-linux
 
-Консольный клиент для MGRemote.
+Консольный клиент для MRemoteNG.
 Команды:
 
 mg.py -l - Список хостов.
