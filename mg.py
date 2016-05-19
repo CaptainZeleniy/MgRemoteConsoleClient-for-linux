@@ -6,8 +6,21 @@ import os
 parser = argparse.ArgumentParser(description='MRemoteNG XML Parser')
 parser.add_argument('--list', '-l', action='store_true',help='List Available Connections')
 parser.add_argument('--connect', '-c', nargs=1, help='Connect by number', type=int)
+parser.add_argument('--file', '-f',  nargs=1, help='Filename', type=str)
 args = parser.parse_args()
-tree = ET.parse('/tmp/confCons.xml')
+
+global tree, name, hostname, protocol, username, port, i
+
+if args.file:
+    filename = str(args.file[0])
+    tree = ET.parse(filename)
+else:
+   if os.path.isfile('/tmp/confCons.xml'):
+      tree = ET.parse('/tmp/confCons.xml')
+   else:
+       print ('Error file confCons.xml not found, please put him into /tmp or use -f option')
+       exit()
+
 root = tree.getroot()
 class color:
    PURPLE = '\033[95m'
@@ -21,7 +34,6 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-global name, hostname, protocol, username, port, i
 
 def tree_parser_list():
     """Parse confCons.xml from variable tree
@@ -63,14 +75,11 @@ def tree_connect():
                  elif  protocol == 'RDP':
                      if not username:
                          os.system ('rdesktop %s'  % (hostname))
-                         break
                      else:
                          os.system ('rdesktop -u %s %s'  % (username, hostname))
-                         break
 
                  else:
                      print(" ~In this version only ssh2 and rdesktop")
-                     break
             #else:
             #    print (" ~Connection number not found")
             #    break
@@ -78,7 +87,15 @@ def tree_connect():
 
 if args.list:
         tree_parser_list()
+        exit()
 if args.connect:
         tree_connect()
+        exit()
 else:
     print ("~ No Arg")
+    print ("If script running without parameters it's show list of connections")
+    print ("from /tmp/confCons.xml")
+    print ("=========================================================")
+    print ("=========================================================")
+    print ("=========================================================")
+    tree_parser_list()   
