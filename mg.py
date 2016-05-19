@@ -5,28 +5,31 @@ import os
 
 parser = argparse.ArgumentParser(description='MRemoteNG XML Parser')
 parser.add_argument('--list', '-l', action='store_true',help='List Available Connections')
-parser.add_argument('--connect', '-c', nargs=1, help='Connect', type=int)
-
-
-
+parser.add_argument('--connect', '-c', nargs=1, help='Connect by number', type=int)
 args = parser.parse_args()
 tree = ET.parse('/tmp/confCons.xml')
 root = tree.getroot()
-i = 0
+global name, hostname, protocol, username, port, i
 
-if args.list:
+def tree_parser_list():
+    """Parse confCons.xml from variable tree
+       =)"""
+    i = 0
     for node in tree.getiterator('Node'):
         name = node.get('Name')
         hostname = node.get('Hostname')
         protocol = node.get('Protocol')
         username = node.get('Username')
+        port = node.get('Port')
         if name and hostname:
             i += 1
-            print '    %s :: %s :: %s :: %s :: %i' % (name, hostname, protocol, username, i)
+            conninfo = '    %i :: %s :: %s :: %s :: %s :: %s' % (i, name, hostname, protocol, username, port)
+            print conninfo.encode('utf-8')
         else:
             print 'This is group ' + name
-if args.connect:
-      print ("~Connect" + format(args.connect))
+
+def tree_connect():
+      i = 0
       for node in tree.getiterator('Node'):
         name = node.get('Name')
         hostname = node.get('Hostname')
@@ -34,7 +37,7 @@ if args.connect:
         username = node.get('Username')
         port = node.get('Port')
         if name and hostname:
-            i = i + 1
+            i += 1
             if int(args.connect[0]) == i:
                  print (name, hostname, protocol,username)
                  if protocol == 'SSH2':
@@ -53,10 +56,16 @@ if args.connect:
                          break
 
                  else:
-                     print(" ~In this version only ssh2")
+                     print(" ~In this version only ssh2 and rdesktop")
                      break
             #else:
             #    print (" ~Connection number not found")
             #    break
+
+
+if args.list:
+        tree_parser_list()
+if args.connect:
+        tree_connect()
 else:
     print ("~ No Arg")
