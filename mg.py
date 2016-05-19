@@ -44,6 +44,14 @@ if args.connect:
                      else:
                          os.system ('ssh %s@%s -p %s'  % (username, hostname, port))
                          break
+                 elif  protocol == 'RDP':
+                     if not username:
+                         os.system ('rdesktop %s'  % (hostname))
+                         break
+                     else:
+                         os.system ('rdesktop -u %s %s'  % (username, hostname))
+                         break
+
                  else:
                      print(" ~In this version only ssh2")
                      break
@@ -52,7 +60,3 @@ if args.connect:
             #    break
 else:
     print ("~ No Arg")
-<<<<<<< HEAD
-        
-=======
->>>>>>> 845ad8420608705826244be1b86b3ec15bb9fc9a
