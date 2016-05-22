@@ -75,9 +75,9 @@ def tree_connect():
                          break
                  elif  protocol == 'RDP':
                      if not username:
-                         os.system ('rdesktop -k en-us %s -d %' % (hostname, domain))
+                         os.system ('rdesktop -k en-us %s -d %s' % (hostname, domain))
                      else:
-                         os.system ('rdesktop -k en-us -u %s %s -d %'  % (username, hostname, domain))
+                         os.system ('rdesktop -k en-us -u %s %s -d %s'  % (username, hostname, domain))
 
                  else:
                      print(" ~In this version only ssh2 and rdesktop")
